@@ -34,7 +34,7 @@ class ProductCard extends ConsumerWidget {
                     child: product.imageUrls.isNotEmpty
                         ? CachedNetworkImage(
                             imageUrl: product.imageUrls.first,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                             placeholder: (_, __) => Container(color: AppColors.shimmerBase),
                             errorWidget: (_, __, ___) => Container(
                               color: AppColors.background,

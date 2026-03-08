@@ -21,196 +21,191 @@ class HomeScreen extends ConsumerWidget {
       backgroundColor: AppColors.background,
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-  floating: true,
-  snap: true,
-  backgroundColor: Colors.transparent,
-  elevation: 0,
-  expandedHeight: 200,
-  flexibleSpace: SafeArea(
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
-      child: Column(
-        children: [
 
-          /// BEIGE LOCATION CARD
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFFF4E6D4),
-                  Color(0xFFEED7BC),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+          /// ===============================
+          /// TOP HEADER
+          /// ===============================
+          SliverToBoxAdapter(
+  child: Padding(
+    padding: const EdgeInsets.fromLTRB(16, 45, 16, 10),
+    child: Column(
+      children: [
+
+        /// TOP ICON ROW
+        Row(
+          children: [
+
+            /// WHATSAPP ICON
+            Container(
+              height: 42,
+              width: 42,
+              decoration: const BoxDecoration(
+                color: Color(0xFFE6F7ED),
+                shape: BoxShape.circle,
               ),
-              borderRadius: BorderRadius.circular(20),
+              child: const Icon(
+                Icons.chat, // whatsapp style
+                color: Colors.green,
+                size: 22,
+              ),
+            ),
+
+            const Spacer(),
+
+            /// BALAJI LOGO (BIGGER)
+            SizedBox(
+              height: 60,
+              child: Image.asset(
+                "assets/images/balaji_logo_transparent.png",
+                fit: BoxFit.contain,
+              ),
+            ),
+
+            const Spacer(),
+
+            /// PROFILE ICON
+            Container(
+              height: 42,
+              width: 42,
+              decoration: const BoxDecoration(
+                color: Color(0xFF0F6C5C),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.person,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 8),
+
+        /// LOCATION (CENTERED)
+        userAsync.when(
+          data: (u) => Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.home, color: Color(0xFF0F6C5C), size: 18),
+              const SizedBox(width: 6),
+
+              Text(
+                "HOME - ${u?.address?.toString() ?? "167, 1401, 4th Tank Road"}",
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+
+              const SizedBox(width: 4),
+              const Icon(Icons.keyboard_arrow_down, size: 18)
+            ],
+          ),
+          loading: () => const Text("Loading..."),
+          error: (_, __) => const Text("Set address"),
+        ),
+
+        const SizedBox(height: 14),
+
+        /// SEARCH BAR
+        GestureDetector(
+          onTap: () => context.push(AppRoutes.search),
+          child: Container(
+            height: 52,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: Colors.grey.shade300),
             ),
             child: Row(
               children: [
 
-                const Icon(
-                  Icons.location_on,
-                  color: Color(0xFF9C7B50),
-                  size: 22,
+                const Icon(Icons.search, color: Colors.grey),
+
+                const SizedBox(width: 8),
+
+                const Expanded(
+                  child: Text(
+                    "Search fashion & products",
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
 
-                const SizedBox(width: 10),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                /// TRY AT HOME BUTTON (BIGGER)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(
+                      color: const Color(0xFF0F6C5C),
+                      width: 1.5,
+                    ),
+                  ),
+                  child: const Row(
                     children: [
-
-                      const Text(
-                        "Deliver to",
+                      Icon(
+                        Icons.home_outlined,
+                        size: 18,
+                        color: Color(0xFF0F6C5C),
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        "TRY AT HOME",
                         style: TextStyle(
                           fontSize: 13,
-                          color: Color(0xFF9C7B50),
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF0F6C5C),
                         ),
                       ),
-
-                      userAsync.when(
-                        data: (u) => Text(
-                          u?.address?.toString() ?? "Indore, India",
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF5A3C20),
-                          ),
-                        ),
-                        loading: () => const Text("Loading..."),
-                        error: (_, __) => const Text("Set address"),
-                      ),
                     ],
-                  ),
-                ),
-
-                /// PROFILE ICON
-                Container(
-                  height: 46,
-                  width: 46,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF4E6D4),
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 8,
-                        offset: const Offset(0, 3),
-                      )
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.person,
-                    color: Color(0xFF9C7B50),
                   ),
                 ),
               ],
             ),
           ),
-
-          const SizedBox(height: 14),
-
-          /// SEARCH BAR
-          GestureDetector(
-            onTap: () => context.push(AppRoutes.search),
-            child: Container(
-              height: 56,
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(35),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
-                    blurRadius: 12,
-                  )
-                ],
-              ),
-              child: Row(
-                children: [
-
-                  const SizedBox(width: 14),
-
-                  const Icon(Icons.search, color: Colors.grey),
-
-                  const SizedBox(width: 10),
-
-                  const Expanded(
-                    child: Text(
-                      "Search fashion...",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-
-                  /// TRY AT HOME BUTTON
-                  Container(
-                    height: 44,
-                    padding: const EdgeInsets.symmetric(horizontal: 18),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFF6B4A2E),
-                          Color(0xFF2E1B0F),
-                        ],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          blurRadius: 6,
-                        )
-                      ],
-                    ),
-                    child: const Row(
-                      children: [
-                        Icon(Icons.home, color: Colors.white, size: 18),
-                        SizedBox(width: 6),
-                        Text(
-                          "Try At Home",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(width: 6),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     ),
   ),
 ),
+
+          /// ===============================
+          /// MAIN CONTENT
+          /// ===============================
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 const SizedBox(height: 16),
+
                 const BannerCarousel(),
+
                 const SizedBox(height: 24),
+
                 const _SectionHeader(title: '⭐ SHOP BY CATEGORY ⭐'),
+
                 const SizedBox(height: 12),
+
                 const CategoryGrid(),
+
                 const SizedBox(height: 24),
+
                 const _SectionHeader(title: '⭐ FEATURED PRODUCTS'),
+
                 const SizedBox(height: 12),
-                
+
                 featured.when(
-                  data: (products) => FeaturedProductsRow(products: products),
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  data: (products) =>
+                      FeaturedProductsRow(products: products),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
                   error: (e, _) => Center(child: Text('Error: $e')),
                 ),
+
                 const SizedBox(height: 80),
               ],
             ),
@@ -221,8 +216,12 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
+/// =================================
+/// SECTION HEADER
+/// =================================
 class _SectionHeader extends StatelessWidget {
   final String title;
+
   const _SectionHeader({required this.title});
 
   @override
@@ -231,7 +230,12 @@ class _SectionHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Text(
         title,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, letterSpacing: 0.5, color: AppColors.textPrimary),
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.5,
+          color: AppColors.textPrimary,
+        ),
       ),
     );
   }
