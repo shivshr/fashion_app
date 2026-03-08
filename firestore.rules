@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can only read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Sub-collection: notifications (read only by owner)
+      match /notifications/{notifId} {
+        allow read: if request.auth != null && request.auth.uid == userId;
+        allow write: if false; // Only via Cloud Functions
+      }
+    }
+
+    // Products: anyone authenticated can read active products
+    match /products/{productId} {
+      allow read: if request.auth != null && resource.data.is_active == true;
+      // Admin writes handled via Firebase Admin SDK / Cloud Functions
+      allow write: if false;
+
+      // Reviews: authenticated users can read, write their own
+      match /reviews/{reviewId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null;
+        allow update, delete: if request.auth != null && request.auth.uid == resource.data.user_id;
+      }
+    }
+
+    // Orders: users can read their own orders and create new ones
+    match /orders/{orderId} {
+      allow read: if request.auth != null && request.auth.uid == resource.data.user_id;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.user_id;
+      allow update, delete: if false; // Admin SDK only
+    }
+
+    // Admin collection: completely locked from client SDK
+    match /admin/{adminId} {
+      allow read, write: if false;
+    }
+  }
+}
