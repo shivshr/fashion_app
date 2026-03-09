@@ -74,15 +74,15 @@ class OrderDetailScreen extends ConsumerWidget {
                     ),
                   )
                 else
-                  Card(
+                  const Card(
                     color: AppColors.outOfStockBg,
                     child: Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16),
                       child: Row(
                         children: [
-                          const Icon(Icons.cancel_rounded, color: AppColors.error),
-                          const SizedBox(width: 12),
-                          const Text('This order was cancelled', style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.error)),
+                          Icon(Icons.cancel_rounded, color: AppColors.error),
+                          SizedBox(width: 12),
+                          Text('This order was cancelled', style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.error)),
                         ],
                       ),
                     ),

@@ -16,6 +16,7 @@ class PhoneLoginScreen extends ConsumerStatefulWidget {
 class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController(text: '+91');
+
   bool _loading = false;
 
   @override
@@ -26,17 +27,24 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
 
   Future<void> _sendOtp() async {
     if (!_formKey.currentState!.validate()) return;
+
     setState(() => _loading = true);
 
     await ref.read(authServiceProvider).sendOtp(
       phoneNumber: _phoneController.text.trim(),
       onCodeSent: (_) {
         setState(() => _loading = false);
-        context.push(AppRoutes.otpVerify, extra: _phoneController.text.trim());
+        context.push(AppRoutes.otpVerify,
+            extra: _phoneController.text.trim());
       },
       onError: (e) {
         setState(() => _loading = false);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e), backgroundColor: AppColors.error));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e),
+            backgroundColor: AppColors.error,
+          ),
+        );
       },
       onAutoVerified: () {
         setState(() => _loading = false);
@@ -48,58 +56,180 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 40),
-              const Icon(Icons.shopping_bag_rounded, size: 56, color: AppColors.primary),
-              const SizedBox(height: 24),
-              const Text('Welcome to\nFashionApp 👋',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700, height: 1.3)),
-              const SizedBox(height: 8),
-              const Text('Sign in with your phone number to continue',
-                  style: TextStyle(fontSize: 15, color: AppColors.textSecondary)),
-              const SizedBox(height: 48),
-              Form(
-                key: _formKey,
-                child: TextFormField(
-                  controller: _phoneController,
-                  keyboardType: TextInputType.phone,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                  validator: Validators.phone,
-                  decoration: const InputDecoration(
-                    labelText: 'Phone Number',
-                    prefixIcon: Icon(Icons.phone_outlined),
-                    hintText: '+91 XXXXX XXXXX',
-                  ),
+      backgroundColor: const Color(0xFFE6F7ED),
+
+      body: Column(
+        children: [
+
+          /// TOP GREEN SPACE
+          const SizedBox(height: 120),
+
+          /// FULL SCREEN WHITE CARD
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(24),
+
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32),
+                  topRight: Radius.circular(32),
                 ),
               ),
-              const SizedBox(height: 32),
-              ElevatedButton(
-                onPressed: _loading ? null : _sendOtp,
-                child: _loading
-                    ? const SizedBox(height: 22, width: 22, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                    : const Text('Send OTP'),
-              ),
-              const SizedBox(height: 24),
-              Center(
-                child: TextButton(
-                  onPressed: () => context.push(AppRoutes.adminLogin),
-                  child: const Text('Admin Login', style: TextStyle(color: AppColors.textSecondary)),
+
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+
+                    /// BALAJI LOGO
+                    Image.asset(
+                      "assets/images/logo_transparent.png",
+                      height: 350,
+                    ),
+
+    
+
+                    /// WELCOME BACK
+                    const Text(
+                      "WELCOME BACK",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF0F6C5C),
+                        letterSpacing: 1,
+                      ),
+                    ),
+
+                    const SizedBox(height: 6),
+
+                    /// SUBTITLE
+                    const Text(
+                      "Unlock The World of Textile With Balaji",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.black54,
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    /// PHONE FIELD
+                    Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        validator: Validators.phone,
+
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+
+                        decoration: InputDecoration(
+                          labelText: 'Phone Number',
+                          prefixIcon: const Icon(Icons.phone_outlined),
+
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: const BorderSide(
+                              color: Color(0xFF0F6C5C),
+                              width: 1.5,
+                            ),
+                          ),
+
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: const BorderSide(
+                              color: Color(0xFF0F6C5C),
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 26),
+
+                    /// LOGIN BUTTON
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: _loading ? null : _sendOtp,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF4CAF50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: _loading
+                            ? const SizedBox(
+                                height: 22,
+                                width: 22,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Text(
+                                'Login',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 14),
+
+                    /// ADMIN LOGIN
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFF0F6C5C),
+                              Color(0xFF043B30),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              context.push(AppRoutes.adminLogin),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                          ),
+                          child: const Text(
+                            "Admin Login",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ),
+
+
+                    const SizedBox(height: 20),
+
+                    const Text(
+                      'By continuing, you agree to our\nTerms of Service & Privacy Policy',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textHint,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 40),
-              const Center(
-                child: Text('By continuing, you agree to our\nTerms of Service & Privacy Policy',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 12, color: AppColors.textHint)),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

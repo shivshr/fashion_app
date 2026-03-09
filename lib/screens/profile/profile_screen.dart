@@ -93,7 +93,7 @@ class ProfileScreen extends ConsumerWidget {
                 SwitchListTile(
                   title: const Text('Dark Mode'),
                   value: mode == ThemeMode.dark,
-                  activeColor: AppColors.primary,
+                  activeThumbColor: AppColors.primary,
                   onChanged: (v) {
                     ref.read(themeModeProvider.notifier).state = v ? ThemeMode.dark : ThemeMode.light;
                   },

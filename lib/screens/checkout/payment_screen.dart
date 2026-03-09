@@ -151,11 +151,11 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                   const SizedBox(height: 32),
                   const Text('Powered by', style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                   const SizedBox(height: 8),
-                  Row(
+                  const Row(
                     children: [
                       Icon(Icons.security, color: AppColors.primary, size: 20),
-                      const SizedBox(width: 8),
-                      const Text('Secure payment via Razorpay',
+                      SizedBox(width: 8),
+                      Text('Secure payment via Razorpay',
                           style: TextStyle(fontWeight: FontWeight.w600, color: AppColors.primary)),
                     ],
                   ),

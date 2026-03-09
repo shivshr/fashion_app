@@ -48,7 +48,7 @@ class OrderConfirmationScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               ElevatedButton(
-                onPressed: () => context.push('${AppRoutes.orderDetail.replaceFirst(':id', orderId)}'),
+                onPressed: () => context.push(AppRoutes.orderDetail.replaceFirst(':id', orderId)),
                 style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 52)),
                 child: const Text('Track Order'),
               ),

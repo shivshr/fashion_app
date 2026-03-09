@@ -1,4 +1,3 @@
-import 'package:fashion_app/core/constants/app_colors.dart';
 import 'package:fashion_app/core/utils/extensions.dart';
 import 'package:flutter/material.dart';
 

@@ -67,15 +67,36 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: FilterChip(
-                    label: Text(cat == 'All' ? 'All' : cat.toUpperCase()),
-                    selected: isSelected,
-                    selectedColor: AppColors.primaryLight.withOpacity(0.25),
-                    checkmarkColor: AppColors.primary,
-                    onSelected: (_) {
-                      setState(() => _selectedCat = cat);
-                      ref.read(searchCategoryProvider.notifier).state = cat == 'All' ? null : cat;
-                    },
-                  ),
+  label: Text(
+    cat == 'All' ? 'All' : cat.toUpperCase(),
+    style: TextStyle(
+      color: isSelected
+          ? Colors.white
+          : const Color(0xFF0F6C5C),
+      fontWeight: FontWeight.w600,
+    ),
+  ),
+  selected: isSelected,
+
+  // light green for unselected
+  backgroundColor: const Color(0xFFE6F7ED),
+
+  // darker green when selected
+  selectedColor: const Color(0xFF0F6C5C),
+
+  checkmarkColor: Colors.white,
+
+  side: const BorderSide(
+    color: Color(0xFF0F6C5C),
+    width: 1,
+  ),
+
+  onSelected: (_) {
+    setState(() => _selectedCat = cat);
+    ref.read(searchCategoryProvider.notifier).state =
+        cat == 'All' ? null : cat;
+  },
+)
                 );
               }).toList(),
             ),

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fashion_app/models/user_model.dart';
 
 class CartItemModel {
   final String productId;
