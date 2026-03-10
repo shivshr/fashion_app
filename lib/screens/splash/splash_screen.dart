@@ -91,7 +91,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 /// BALAJI LOGO
                 Image.asset(
                   "assets/images/logo_transparent.png",
-                  height: 500,
+                  height: 400,
                 ),
 
                 const SizedBox(height: 30),

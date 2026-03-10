@@ -14,6 +14,7 @@ class PhoneLoginScreen extends ConsumerStatefulWidget {
 }
 
 class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
+
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController(text: '+91');
 
@@ -26,6 +27,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
   }
 
   Future<void> _sendOtp() async {
+
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _loading = true);
@@ -34,8 +36,10 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
       phoneNumber: _phoneController.text.trim(),
       onCodeSent: (_) {
         setState(() => _loading = false);
-        context.push(AppRoutes.otpVerify,
-            extra: _phoneController.text.trim());
+        context.push(
+          AppRoutes.otpVerify,
+          extra: _phoneController.text.trim(),
+        );
       },
       onError: (e) {
         setState(() => _loading = false);
@@ -55,16 +59,17 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: const Color(0xFFE6F7ED),
 
       body: Column(
         children: [
 
-          /// TOP GREEN SPACE
-          const SizedBox(height: 120),
+          /// TOP SPACE
+          const SizedBox(height: 100),
 
-          /// FULL SCREEN WHITE CARD
+          /// WHITE CARD
           Expanded(
             child: Container(
               width: double.infinity,
@@ -83,38 +88,30 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
 
-                    /// BALAJI LOGO
-                    Image.asset(
-                      "assets/images/logo_transparent.png",
-                      height: 350,
+                    /// BIG BALAJI LOGO
+                    SizedBox(
+                      width: double.infinity,
+                      child: Image.asset(
+                        "assets/images/logo_transparent.png",
+                        height: 230,
+                        fit: BoxFit.contain,
+                      ),
                     ),
 
-    
+                    const SizedBox(height: 10),
 
-                    /// WELCOME BACK
+                    /// SLOGAN
                     const Text(
-                      "WELCOME BACK",
+                      "15 Years of Trusted Quality",
                       style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                         color: Color(0xFF0F6C5C),
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
 
-                    const SizedBox(height: 6),
-
-                    /// SUBTITLE
-                    const Text(
-                      "Unlock The World of Textile With Balaji",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.black54,
-                      ),
-                    ),
-
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 28),
 
                     /// PHONE FIELD
                     Form(
@@ -158,14 +155,17 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                     SizedBox(
                       width: double.infinity,
                       height: 50,
+
                       child: ElevatedButton(
                         onPressed: _loading ? null : _sendOtp,
+
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF4CAF50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+
                         child: _loading
                             ? const SizedBox(
                                 height: 22,
@@ -188,6 +188,7 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                     SizedBox(
                       width: double.infinity,
                       height: 50,
+
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
@@ -198,13 +199,16 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
+
                         child: ElevatedButton(
                           onPressed: () =>
                               context.push(AppRoutes.adminLogin),
+
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
                           ),
+
                           child: const Text(
                             "Admin Login",
                             style: TextStyle(fontSize: 16),
@@ -213,9 +217,9 @@ class _PhoneLoginScreenState extends ConsumerState<PhoneLoginScreen> {
                       ),
                     ),
 
+                    const SizedBox(height: 30),
 
-                    const SizedBox(height: 20),
-
+                    /// TERMS
                     const Text(
                       'By continuing, you agree to our\nTerms of Service & Privacy Policy',
                       textAlign: TextAlign.center,
